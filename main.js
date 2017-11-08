@@ -23,11 +23,11 @@ var server = http.createServer(function (request, response) {
             params.width  = sizeMatch[1];
             params.height = sizeMatch[2];
             params.url    = params.url.replace(sizeReg, '');
-            console.log(params);
         }
 
         var hash        = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex');
         params.filename = './cache/' + hash + '.png';
+        
         fs.exists(params.filename, function (exists) {
             if (!exists) {
                 screen(params, function () {
