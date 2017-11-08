@@ -1,0 +1,14 @@
+{
+    "name": "web-screen",
+    "version": "1.0.0",
+    "description": "一个生产网站截图的工具",
+    "main": "main.js",
+    "scripts": {
+        "run": "node main.js"
+    },
+    "author": "玩具机器人 zhaishuaigan@qq.com",
+    "license": "ISC",
+    "dependencies": {
+        "phantomjs": "^2.1.7+deprecated"
+    }
+}
