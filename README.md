@@ -6,14 +6,24 @@
 
 注意: 最好使用cnpm安装package, 否则可能下载phantomjs失败.
 ```
+# 中文字体库
+apt-get install xfonts-wqy
+
+
 git clone https://github.com/zhaishuaigan/web-screen.git web-screen
 cd web-screen
 cnpm install
 node main.js
+
 ```
 
 然后就可以在浏览器打开: `http://localhost:8000/screen?url=http://baidu.com&size=1024*768` 生成百度的截图
 size是可选项, 后面是浏览器窗口 最小宽度 和 最小高度, 默认值是 1024 * 600.
 如果要修改端口, 可编辑main.js中PORT变量的值.
 
-## 实例
+## 报错解决方法
+1. phantomjs: error while loading shared libraries: libfontconfig.so.1: cannot open shared object file: No such file or directory
+```
+apt-get install fontconfig
+
+```
