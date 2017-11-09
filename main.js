@@ -26,8 +26,8 @@ var server = http.createServer(function (request, response) {
         }
 
         var hash        = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex');
-        params.filename = './cache/' + hash + '.png';
-        
+        params.filename = __dirname + '/cache/' + hash + '.png';
+
         fs.exists(params.filename, function (exists) {
             if (!exists) {
                 screen(params, function () {
@@ -40,7 +40,7 @@ var server = http.createServer(function (request, response) {
             }
         });
     } else if (request.url.substr(0, 6) == '/cache') {
-        filename = '.' + request.url;
+        filename = __dirname + request.url;
         sendFile(response, filename);
     }
 });
