@@ -32,7 +32,12 @@ var server = http.createServer(function (request, response) {
             if (!exists) {
                 screen(params, function () {
                     sendFile(response, params.filename);
-                }, function () {
+                }, function (err) {
+                    response.writeHead(404, {
+                        'Content-Type': 'text/plain'
+                    });
+                    console.log('截屏失败:');
+                    console.log(err);
                     response.end('截屏失败');
                 })
             } else {
