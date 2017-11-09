@@ -47,6 +47,11 @@ var server = http.createServer(function (request, response) {
     } else if (request.url.substr(0, 6) == '/cache') {
         filename = __dirname + request.url;
         sendFile(response, filename);
+    } else {
+        response.writeHead(404, {
+            'Content-Type': 'text/plain'
+        });
+        response.end('不存在的请求地址');
     }
 });
 server.listen(PORT);
