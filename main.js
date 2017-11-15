@@ -25,11 +25,17 @@ var server = http.createServer(function (request, response) {
             params.url    = params.url.replace(sizeReg, '');
         }
 
+        var cacheReg   = /\&cache\=false/;
+        var cacheMatch = params.url.match(cacheReg);
+        if (cacheMatch) {
+            params.url    = params.url.replace(cacheReg, '');
+        }
+
         var hash        = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex');
         params.filename = __dirname + '/cache/' + hash + '.png';
 
         fs.exists(params.filename, function (exists) {
-            if (!exists) {
+            if (!exists || cacheMatch) {
                 screen(params, function () {
                     sendFile(response, params.filename);
                 }, function (err) {
