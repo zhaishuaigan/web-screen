@@ -1,37 +1,37 @@
-var http         = require('http');
-var fs           = require('fs');
-var path         = require('path');
+var http = require('http');
+var fs = require('fs');
+var path = require('path');
 var childProcess = require('child_process');
-var phantomjs    = require('phantomjs');
-var binPath      = phantomjs.path;
-var crypto       = require('crypto');
+var phantomjs = require('phantomjs');
+var binPath = phantomjs.path;
+var crypto = require('crypto');
 
 var PORT = 8000;
 
 var server = http.createServer(function (request, response) {
     var filename = '';
     if (request.url.substr(0, 12) == '/screen?url=') {
-        var params    = {
-            url     : request.url.substr(12),
+        var params = {
+            url: request.url.substr(12),
             filename: '',
-            width   : 1024,
-            height  : 600
+            width: 1024,
+            height: 600
         };
-        var sizeReg   = /\&size\=(\d+)\*(\d+)/;
+        var sizeReg = /\&size\=(\d+)\*(\d+)/;
         var sizeMatch = params.url.match(sizeReg);
         if (sizeMatch) {
-            params.width  = sizeMatch[1];
+            params.width = sizeMatch[1];
             params.height = sizeMatch[2];
-            params.url    = params.url.replace(sizeReg, '');
+            params.url = params.url.replace(sizeReg, '');
         }
 
-        var cacheReg   = /\&cache\=false/;
+        var cacheReg = /\&cache\=false/;
         var cacheMatch = params.url.match(cacheReg);
         if (cacheMatch) {
-            params.url    = params.url.replace(cacheReg, '');
+            params.url = params.url.replace(cacheReg, '');
         }
 
-        var hash        = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex');
+        var hash = crypto.createHash('md5').update(JSON.stringify(params)).digest('hex');
         params.filename = __dirname + '/cache/' + hash + '.png';
 
         fs.exists(params.filename, function (exists) {
@@ -97,13 +97,15 @@ function screen(params, callback, error) {
     // var filename = './cache/' + md5.update(url).digest('hex') + '.png';
 
     var childArgs = [
+        '--disk-cache=true',
+        '--disk-cache-path=' + path.join(__dirname, 'cache/temp/'),
         path.join(__dirname, 'phantomjs-script.js'),
         params.url,
         params.filename,
         params.width ? params.width : 1024,
         params.height ? params.height : 600
     ];
-
+    console.log(binPath);
     childProcess.execFile(binPath, childArgs, function (err, stdout, stderr) {
         if (err) {
             error(err);

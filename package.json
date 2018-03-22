@@ -9,6 +9,7 @@
     "author": "玩具机器人 zhaishuaigan@qq.com",
     "license": "ISC",
     "dependencies": {
+        "node-windows": "^0.1.14",
         "phantomjs": "^2.1.7+deprecated"
     }
 }
